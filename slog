@@ -4,7 +4,7 @@
 # Copyright (c) 2024 Rintaro Kanzaki
 # This script is licensed under the MIT License.
 #########################
-# Logging utility, inspired by the slog package in golang.
+# Logging utility, inspired by the slog package of golang.
 # The default format should look like this: 2022/11/08 15:28:26 INFO hello count=3
 #########################
 
