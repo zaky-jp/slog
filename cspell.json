@@ -1,0 +1,18 @@
+{
+	"dictionaryDefinitions": [
+		{
+			"name": "local",
+			"path": ".config/cspell/workspace-dictionary.txt",
+			"addWords": true
+		}
+	],
+	"import": [
+		"@cspell/dict-bash/cspell-ext.json",
+		"@cspell/dict-docker/cspell-ext.json",
+		"@cspell/dict-makefile/cspell-ext.json",
+		"@cspell/dict-markdown/cspell-ext.json"
+	],
+	"dictionaries": [
+		"local"
+	]
+}

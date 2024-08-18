@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+#########################
+# Copyright (c) 2024 Rintaro Kanzaki
+# This script is licensed under the MIT License.
+#########################
+# Logging utility, inspired by the slog package in golang.
+# The default format should look like this: 2022/11/08 15:28:26 INFO hello count=3
+#########################
+
+print_usage() {
+	cat <<-EOF
+		Usage: slog [log_level] [message] [key=value]...
+
+		log_level:
+		DEBUG, INFO, WARN, ERROR takes one of these values
+	EOF
+}
+
+if [[ $# -lt 2 ]]; then
+	print_usage
+	exit 1
+fi
+
+if { echo 4.2 "$(bash -c 'echo $BASH_VERSION')" | xargs -n 1 | sort -V -C; }; then
+	# bash 4.2 or later
+	print_date() {
+		printf '%(%Y/%m/%d %H:%M:%S)T'
+	}
+else
+	print_date() {
+		local date_string
+		date_string=$(date +'%Y/%m/%d %H:%M:%S')
+		echo -n "${date_string}"
+	}
+fi
+
+start_printing_bold() {
+	printf '\e[1m'
+}
+
+start_printing_colour() {
+	local colour="${1}"
+	case "${colour}" in
+	black) printf '\e[30m' ;;
+	red) printf '\e[31m' ;;
+	green) printf '\e[32m' ;;
+	yellow) printf '\e[33m' ;;
+	blue) printf '\e[34m' ;;
+	magenta) printf '\e[35m' ;;
+	cyan) printf '\e[36m' ;;
+	white) printf '\e[37m' ;;
+	esac
+}
+
+reset_printing_style() {
+	printf '\e[0m'
+}
+
+print_log() {
+	local log_level="${1}"
+	shift
+
+	local colour
+	case "${log_level}" in
+	DEBUG) colour=black ;;
+	INFO) colour=green ;;
+	WARN) colour=yellow ;;
+	ERROR) colour=red ;;
+	*)
+		print_usage
+		exit 1
+		;;
+	esac
+
+	# output to stderr
+	{
+		start_printing_colour ${colour}
+		print_date
+		reset_printing_style
+
+		start_printing_colour ${colour}
+		start_printing_bold
+		printf ' %s ' "${log_level}"
+		reset_printing_style
+
+		start_printing_colour ${colour}
+		for str in "$@"; do
+			printf '%s ' "${str}"
+		done
+		reset_printing_style
+
+		echo
+	} 1>&2
+}
+
+print_log "$@"

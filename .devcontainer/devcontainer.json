@@ -1,0 +1,49 @@
+{
+	"name": "bash-ide",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "../..",
+		"options": [
+			"--tag=vsc-bash-ide-${localWorkspaceFolderBasename}:rolling"
+		]
+	},
+	"mounts": [
+		{
+			"type": "volume",
+			"source": "vsc-${localWorkspaceFolderBasename}-node-modules",
+			"target": "${containerWorkspaceFolder}/node_modules"
+		},
+		{
+			"type": "bind",
+			"source": "${localEnv:XDG_CONFIG_HOME}/cspell/user-dictionary.txt",
+			"target": "/root/.config/cspell/user-dictionary.txt" // $HOME is hardcoded here.
+		}
+	],
+	"workspaceMount": "source=${localWorkspaceFolder},target=/opt/${localWorkspaceFolderBasename},type=bind,consistency=cached",
+	"workspaceFolder": "/opt/${localWorkspaceFolderBasename}",
+	"onCreateCommand": [
+		"/usr/bin/make",
+		"install-npm"
+	],
+	"runArgs": [
+		"--name=vsc-${localWorkspaceFolderBasename}"
+	],
+	"customizations": {
+		"vscode": {
+			// cspell:disable
+			"extensions": [
+				"EditorConfig.EditorConfig",
+				"mads-hartmann.bash-ide-vscode",
+				"mhutchie.git-graph",
+				"bierner.github-markdown-preview",
+				"chrislajoie.vscode-modelines",
+				"mkhl.shfmt"
+			],
+			"settings": {
+				"[shellscript]": {
+					"editor.defaultFormatter": "mkhl.shfmt"
+				}
+			}
+		}
+	}
+}

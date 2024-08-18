@@ -1,0 +1,5 @@
+mvdan
+noninteractive
+pipefail
+shellcheck
+shfmt
