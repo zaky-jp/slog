@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "@cspell/dict-bash": "^4.1.4",
-    "@cspell/dict-docker": "^1.1.7",
-    "@cspell/dict-makefile": "^1.0.0",
-    "@cspell/dict-markdown": "^2.0.2"
+    "@cspell/dict-bash": "^4.1.8",
+    "@cspell/dict-docker": "^1.1.10",
+    "@cspell/dict-makefile": "^1.0.3",
+    "@cspell/dict-markdown": "^2.0.5"
   }
 }
